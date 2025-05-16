@@ -2,7 +2,14 @@ import { icons } from '@/constants/icons';
 import { fetchMovieDetails } from '@/services/api';
 import useFetch from '@/services/useFetch';
 import { router, useLocalSearchParams } from 'expo-router';
-import { View, ScrollView, Image, Text, TouchableOpacity } from 'react-native';
+import {
+    View,
+    ScrollView,
+    Image,
+    Text,
+    TouchableOpacity,
+    ActivityIndicator,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface MovieInfoProps {
@@ -21,11 +28,28 @@ const MovieInfo = ({ label, value }: MovieInfoProps) => (
 
 const MovieDetails = () => {
     const { id } = useLocalSearchParams();
-    const { data: movie, loading } = useFetch(() =>
-        fetchMovieDetails(id as string)
-    );
+    const {
+        data: movie,
+        loading,
+        error,
+    } = useFetch(() => fetchMovieDetails(id as string));
 
-    if (!movie) return null;
+    // if (!movie) return null;
+    if (loading) {
+        return (
+            <View className="flex-1 justify-center items-center bg-primary">
+                <ActivityIndicator size="large" color="#fff" />
+            </View>
+        );
+    }
+
+    if (error || !movie) {
+        return (
+            <View className="flex-1 justify-center items-center bg-primary">
+                <Text className="text-white">Ошибка загрузки данных</Text>
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView className="bg-primary flex-1">
