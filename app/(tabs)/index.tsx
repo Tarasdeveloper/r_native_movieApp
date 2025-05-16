@@ -16,8 +16,6 @@ import {
     View,
 } from 'react-native';
 
-// import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-
 export default function Index() {
     const router = useRouter();
 
@@ -82,9 +80,6 @@ export default function Index() {
                             data={trendingMovies}
                             renderItem={({ item, index }) => (
                                 <TrendingCard movie={item} index={index} />
-                                // <Text className="text-white text-sm">
-                                //     {item.title}
-                                // </Text>
                             )}
                             keyExtractor={(item) => item.movie_id.toString()}
                         />
